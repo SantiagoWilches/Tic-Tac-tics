@@ -1,5 +1,6 @@
 #include "Cell.h"
-
+/*This class contains a 2d array of pointers to nine cells.
+It inherits other attributes from the cell class*/
 class MiniBoard :public Cell
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 #include "MiniBoard.h"
-
+/*Contains 2d array of nine pointers to miniboards*/
 class MainBoard :public MiniBoard
 {
 public:

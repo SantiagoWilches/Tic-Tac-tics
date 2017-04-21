@@ -1,5 +1,5 @@
 #include "MainBoard.h"
-
+/*Default constructor allocates memory for nine miniboards and builds the boards*/
 MainBoard::MainBoard()
 {
 	this->mMainBoard[0][0] = new MiniBoard(sf::Vector2f(175, 100));
@@ -16,17 +16,19 @@ MainBoard::MainBoard()
 	this->setPosition(sf::Vector2f(175, 100));
 	this->setOutlineThickness(-12);
 }
-
+/*default destructor deletes memory associated with the miniboards.*/
 MainBoard::~MainBoard()
 {
 
 }
-
+/*getter for miniboard.*/
 MiniBoard MainBoard::getMiniBoard(int &row, int&column)
 {
 	return *(this->mMainBoard[row][column]);
 }
-
+/*passes character setting information to from each miniboard into
+the miniboard character setting function which passes info to the 
+cell character setting function.*/
 void MainBoard::setCellCharacter(sf::Vector2i &mousePosition, sf::String &playerString, sf::Font &font, int &playerNumber, MiniBoardPosition &miniPos)
 {
 	int i = 0, n = 0;
@@ -38,7 +40,8 @@ void MainBoard::setCellCharacter(sf::Vector2i &mousePosition, sf::String &player
 		}
 	}
 }
-
+/*draws the mainboard as a cell if it has been won.
+Otherwise, the miniboards are drawn one at a time.*/
 void MainBoard::draw(sf::RenderWindow &window, sf::Vector2i &mousePosition, sf::String &newChar, sf::Font &font, int &playerNumber, MiniBoardPosition &miniPos)
 {
 	if (this->isWon(mousePosition, newChar, font))
@@ -58,7 +61,9 @@ void MainBoard::draw(sf::RenderWindow &window, sf::Vector2i &mousePosition, sf::
 		}
 	}
 }
-
+/*determines if mainboard has been won. if it has, cell character is set
+by calling the cell version of the setcellcharacter function. 
+returns a bool.*/
 bool MainBoard::isWon(sf::Vector2i &mousePosition, sf::String &newChar, sf::Font &font)
 {
 	if ((this->mMainBoard[0][0]->isWon(mousePosition, newChar, font)) || 
@@ -132,7 +137,8 @@ bool MainBoard::isWon(sf::Vector2i &mousePosition, sf::String &newChar, sf::Font
 		}
 		else if ((this->mMainBoard[0][2]->isClaimed()) && (this->mMainBoard[0][1]->isClaimed()) && (this->mMainBoard[0][0]->isClaimed()) &&
 			(this->mMainBoard[1][0]->isClaimed()) && (this->mMainBoard[1][1]->isClaimed()) && (this->mMainBoard[1][2]->isClaimed()) &&
-			(this->mMainBoard[2][0]->isClaimed()) && (this->mMainBoard[2][1]->isClaimed()) && (this->mMainBoard[2][2]->isClaimed())) {
+			(this->mMainBoard[2][0]->isClaimed()) && (this->mMainBoard[2][1]->isClaimed()) && (this->mMainBoard[2][2]->isClaimed()))
+		{
 			sf::String temp = "Draw";
 			this->Cell::setCellCharacter(mousePosition, temp, font);
 			return true;

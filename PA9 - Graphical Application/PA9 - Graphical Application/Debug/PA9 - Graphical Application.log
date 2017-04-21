@@ -1,6 +1,14 @@
 ﻿  PA9.cpp
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(41): warning C4018: '<': signed/unsigned mismatch
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(112): warning C4018: '<': signed/unsigned mismatch
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(172): warning C4715: 'findOpenMiniboard': not all control paths return a value
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(43): warning C4018: '<': signed/unsigned mismatch
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(152): warning C4018: '<': signed/unsigned mismatch
+  MiniBoard.cpp
+  Main.cpp
+  Cell.cpp
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\cell.cpp(69): warning C4244: 'argument': conversion from 'const float' to 'unsigned int', possible loss of data
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\cell.cpp(87): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  Generating Code...
+  Compiling...
+  MainBoard.cpp
+  Generating Code...
   PA9 - Graphical Application.vcxproj -> C:\Users\richa\OneDrive\CPTS122\PA9 - Graphical Application\PA9 - Graphical Application\Debug\PA9 - Graphical Application.exe
   PA9 - Graphical Application.vcxproj -> C:\Users\richa\OneDrive\CPTS122\PA9 - Graphical Application\PA9 - Graphical Application\Debug\PA9 - Graphical Application.pdb (Full PDB)

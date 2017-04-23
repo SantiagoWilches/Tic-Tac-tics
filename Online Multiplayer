@@ -1,0 +1,77 @@
+int main(void) {
+	//sf::IpAddress LocalAddy = sf::IpAddress::getLocalAddress();
+	//sf::IpAddress PubbyAddy = sf::IpAddress::getPublicAddress();
+	//cout << "Local: " << LocalAddy << endl;
+	//cout << "Public: " << PubbyAddy << endl; //use this for connection for cross-machine play?
+
+	char dataSent[100];
+
+	//Network with TCP sockets:
+	char connectionType;
+	cout << "Enter 's' for server or 'c' for client" << endl;
+	cin >> connectionType;
+
+	sf::TcpSocket socket;
+
+	//server code
+	if (connectionType == 's') {
+		sf::TcpListener listener;
+		// bind the listener to a port
+		if (listener.listen(PORT) != sf::Socket::Done)
+		{
+			// error...
+			cout << "Error listening for connection." << endl;
+		}
+		else {
+			cout << "Heard a connection." << endl;
+		}
+
+		// accept a new connection
+		//sf::TcpSocket client;
+		if (listener.accept(socket) != sf::Socket::Done)
+		{
+			// error...
+			cout << "Error accepting connection." << endl;
+		}
+		else {
+			cout << "Accepted connection" << endl;
+			strcpy(dataSent, "Sent from server. (Player 1's move Mega: [1,0] Mini: [2,1]");
+		}
+	}
+	//client code
+	else if (connectionType == 'c') {
+		//sf::IpAddress ip = sf::IpAddress::getLocalAddress(); //for two different machines, will probably have to adjust this address
+		sf::IpAddress ip = sf::IpAddress::getPublicAddress(); //might be all we need.
+		sf::Time timeout(sf::seconds(5)); //timeout parameter can be left empty
+		sf::Socket::Status status = socket.connect(ip, PORT, timeout);
+		if (status != sf::Socket::Done)
+		{
+			// error...
+			cout << "Error connecting to server." << endl; //currently, I believe the server must connect first
+		}
+		else {
+			cout << "Connected to server." << endl;
+			strcpy(dataSent, "Sent from client.");
+		}
+	}
+	system("pause");
+
+	//send data
+	if (socket.send(dataSent, 100) != sf::Socket::Done)
+	{
+		// error...
+	}
+
+	//receive data
+	std::size_t received;
+	char dataReceived[100];
+	if (socket.receive(dataReceived, 100, received) != sf::Socket::Done)
+	{
+		// error...
+	}
+	//if(received > 0){} //then opponent made a move, so this user can take their turn
+	std::cout << "Data received: " << dataReceived << std::endl;
+	system("pause");
+  
+  return 0;
+  }

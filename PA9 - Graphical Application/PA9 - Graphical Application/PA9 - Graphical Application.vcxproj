@@ -22,7 +22,7 @@
     <ProjectGuid>{6A767943-B4D9-476C-93C8-609D6B2D9728}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PA9GraphicalApplication</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

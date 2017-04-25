@@ -17,7 +17,7 @@ void setFont(sf::Font &font, sf::Text &text)
 /*Prints rules for the game. click anywhere to close screen.*/
 void printInstructions()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 500), "Welcome", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Welcome", sf::Style::Default);
 	sf::Font font;
 	sf::Text title, instructions;
 	setFont(font, title);
@@ -88,12 +88,12 @@ void printInstructions()
 }
 /*Asks player one to select "x" or "o". Randomly decides which player
 will go first.*/
-void quereyPlayers(Player &player, int &playerNumber)
+void quereyPlayers(Player &player, int &playerNumber, bool &play)
 {
 	Cell *x, *o;
 	o = new Cell(sf::Vector2f(380,150)); x = new Cell(sf::Vector2f(200,150));
 	sf::Text test, xString, oString, firstPlayer;
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Welcome", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Welcome", sf::Style::Default);
 	sf::Font font;
 	setFont(font, test);
 	setFont(font, oString);
@@ -133,6 +133,12 @@ void quereyPlayers(Player &player, int &playerNumber)
 			case sf::Event::Closed:
 				window.close();
 				break;
+			case sf::Event::KeyReleased:
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					play = false;
+					window.close();
+				}
 			case sf::Event::EventType::MouseButtonReleased:
 				if ((mousePosition.x > x->getPosition().x) && (mousePosition.y > x->getPosition().y) &&
 					(mousePosition.x < (x->getPosition().x + x->getSize().x)) &&
@@ -199,7 +205,7 @@ MiniBoardPosition findOpenMiniboard(MainBoard &gameBoard)
 	return temp;
 }
 /*main game function*/
-void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::String &playerString, sf::Text &text, Player &player)
+void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::String &playerString, sf::Text &text, Player &player, bool &play)
 {
 	MainBoard testBoard;
 	MiniBoardPosition miniPos, lastPos;
@@ -217,8 +223,11 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 				break;
 			case sf::Event::EventType::MouseButtonReleased:
 				if (testBoard.isWon(mousePosition, playerString, font))
+				{
 					window.close();
-				if (playerNumber == 0)
+					testBoard.clearMainBoard();
+				}
+				else if (playerNumber == 0)
 				{
 					testBoard.setCellCharacter(mousePosition, playerString, font, playerNumber, miniPos);
 				}
@@ -234,16 +243,85 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 					miniPos = lastPos;
 				lastPos = miniPos;
 				break;
+			case sf::Event::KeyReleased:
+				if (event.key.code == sf::Keyboard::Escape) 
+				{
+					play = false;
+					window.close();
+				}
 			default:
 				break;
 			}
 		}
 		window.clear(sf::Color::Blue);
-		text.setString("Test Game");
+		text.setString("Tic Tactical");
 		window.draw(text);
 		testBoard.draw(window, mousePosition, playerString, font, playerNumber, miniPos);
 		if (!testBoard.isWon(mousePosition, playerString, font))
 			updatePlayerString(player, playerString, playerNumber);
 		window.display();
+	}
+}
+
+bool connectMachines()
+{
+	unsigned short port = 12345;
+	char option = '\0';
+	std::cout << "Server (s), or Client (c)?" << std::endl;
+	std::cin >> option;
+	if (option == 's')
+	{
+		sf::TcpListener listener;
+
+		if (listener.listen(port) != sf::Socket::Done)
+			return false;
+		std::cout << "Local Address: " << sf::IpAddress::getLocalAddress() << std::endl;
+		std::cout << "Server is listening to port " << port << ", waiting for connections... " << std::endl;
+
+		// Wait for a connection
+		sf::TcpSocket socket;
+		if (listener.accept(socket) != sf::Socket::Done)
+			return false;
+		std::cout << "Client connected: " << socket.getRemoteAddress() << std::endl;
+
+		// Send a message to the connected client
+		const char out[] = "Hi, I'm the server";
+		if (socket.send(out, sizeof(out)) != sf::Socket::Done)
+			return false;
+		std::cout << "Message sent to the client: \"" << out << "\"" << std::endl;
+
+		return true;
+	}
+	else if (option == 'c')
+	{
+		sf::IpAddress server;
+		do
+		{
+			std::cout << "Type the address or name of the server to connect to: ";
+			std::cin >> server;
+		} while (server == sf::IpAddress::None);
+
+		// Create a socket for communicating with the server
+		sf::TcpSocket socket;
+
+		// Connect to the server
+		if (socket.connect(server, port) != sf::Socket::Done)
+			return false;
+		std::cout << "Connected to server " << server << std::endl;
+
+		// Receive a message from the server
+		char in[128];
+		std::size_t received;
+		if (socket.receive(in, sizeof(in), received) != sf::Socket::Done)
+			return false;
+		std::cout << "Message received from the server: \"" << in << "\"" << std::endl;
+
+		// Send an answer to the server
+		const char out[] = "Hi, I'm a client";
+		if (socket.send(out, sizeof(out)) != sf::Socket::Done)
+			return false;
+		std::cout << "Message sent to the server: \"" << out << "\"" << std::endl;
+
+		return true;
 	}
 }

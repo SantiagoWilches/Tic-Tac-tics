@@ -1,6 +1,7 @@
 #include <iostream>
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
+#include "SFML\Network.hpp"
 #include <string>
 
 using std::cout;
@@ -37,7 +38,7 @@ public:
 	virtual void setCellCharacter(int &i, int &n, sf::Vector2i &mousePosition, sf::String &PlayerString, sf::Font &font, int &playerNumber, int &p, int &q, MiniBoardPosition &miniPos);
 	virtual void setCellCharacter(sf::Vector2i &mousePosition, sf::String &newChar, sf::Font &font);
 	bool isClaimed(void);
-
+	void clearCell(void);
 private:
 	sf::Text mCellCharacter;
 };

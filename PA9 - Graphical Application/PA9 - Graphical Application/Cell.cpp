@@ -96,3 +96,8 @@ bool Cell::isClaimed(void)
 	else
 		return true;
 }
+/*Clears cells*/
+void Cell::clearCell(void)
+{
+	this->mCellCharacter.setString("");
+}

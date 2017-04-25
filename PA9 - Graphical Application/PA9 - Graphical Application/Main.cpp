@@ -1,24 +1,28 @@
-#include <iostream>
 #include "PA9.h"
 
 int main()
 {
-	Player player;
-	sf::Font font;
-	sf::Text text;
-
-	sf::String playerString;
+	Player player;	sf::Font font;	sf::Text text;	sf::String playerString;	int playerNumber = 0;
 	srand((unsigned int)time(NULL));
-	int playerNumber = 0;
-
-
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Test Game", sf::Style::Default);
-	printInstructions();
-	quereyPlayers(player, playerNumber);
 	setFont(font, text);
-
-	playGame(window, font, playerNumber, playerString, text, player);
-	system("pause");
-
+	printInstructions();
+	bool Connected = false;
+	while (!Connected)
+	{
+		system("pause");
+		Connected = connectMachines();
+	}
+	bool play = true;
+	while (play)
+	{
+		quereyPlayers(player, playerNumber, play);
+		if (play)
+		{
+			sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Tic Tactical", sf::Style::Default);
+			playGame(window, font, playerNumber, playerString, text, player, play);
+			player.playerOne.clear();
+			player.playerTwo.clear();
+		}
+	}
 	return 0;
 }

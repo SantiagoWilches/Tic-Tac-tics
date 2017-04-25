@@ -149,3 +149,15 @@ bool MainBoard::isWon(sf::Vector2i &mousePosition, sf::String &newChar, sf::Font
 	else
 		return false;
 }
+/*Clears main board*/
+void MainBoard::clearMainBoard(void)
+{
+	int i = 0, n = 0;
+	for (i = 0; i < 3; i++)
+	{
+		for (n = 0; n < 3; n++)
+		{
+			this->mMainBoard[i][n]->clearMiniBoard();
+		}
+	}
+}

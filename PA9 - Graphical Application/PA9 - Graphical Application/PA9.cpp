@@ -228,7 +228,7 @@ void quereyPlayers(Player &player, int &playerNumber, bool &play, sf::TcpSocket 
 				{
 					player.playerOne.insert(0, "x");
 					player.playerTwo.insert(0, "o");
-					char *send, *num; sf::Packet message;
+					char send[3], num[2]; sf::Packet message;
 					itoa(playerNumber, num, 10);
 					strcpy(send, "o");
 					strcat(send, num);

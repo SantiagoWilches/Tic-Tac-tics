@@ -1,30 +1,22 @@
 ﻿  PA9.cpp
 c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(70): warning C4018: '<': signed/unsigned mismatch
 c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(125): warning C4018: '<': signed/unsigned mismatch
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(246): warning C4018: '<': signed/unsigned mismatch
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(232): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(233): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(129): note: see declaration of 'strcpy'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(234): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(90): note: see declaration of 'strcat'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(449): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(431): note: see declaration of 'strtok'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(451): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(431): note: see declaration of 'strtok'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(459): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(247): warning C4018: '<': signed/unsigned mismatch
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(450): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(453): note: see declaration of 'strtok'
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(452): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(453): note: see declaration of 'strtok'
 c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(460): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(461): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(129): note: see declaration of 'strcpy'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(462): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(90): note: see declaration of 'strcat'
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdlib.h(1316): note: see declaration of 'itoa'
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(461): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdlib.h(1316): note: see declaration of 'itoa'
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(462): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
 c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(463): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\string.h(90): note: see declaration of 'strcat'
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(443): warning C4715: 'connectMachines': not all control paths return a value
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(397): warning C4700: uninitialized local variable 'socket' used
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(423): warning C4700: uninitialized local variable 'socket' used
-c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(464): warning C4172: returning address of local variable or temporary: string
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(90): note: see declaration of 'strcat'
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(464): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(90): note: see declaration of 'strcat'
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(465): warning C4172: returning address of local variable or temporary: string
+c:\users\richa\onedrive\cpts122\pa9 - graphical application\pa9 - graphical application\pa9 - graphical application\pa9.cpp(444): warning C4715: 'connectMachines': not all control paths return a value
   PA9 - Graphical Application.vcxproj -> C:\Users\richa\OneDrive\CPTS122\PA9 - Graphical Application\PA9 - Graphical Application\Debug\PA9 - Graphical Application.exe
   PA9 - Graphical Application.vcxproj -> C:\Users\richa\OneDrive\CPTS122\PA9 - Graphical Application\PA9 - Graphical Application\Debug\PA9 - Graphical Application.pdb (Full PDB)

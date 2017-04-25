@@ -228,12 +228,13 @@ void quereyPlayers(Player &player, int &playerNumber, bool &play, sf::TcpSocket 
 				{
 					player.playerOne.insert(0, "x");
 					player.playerTwo.insert(0, "o");
-					char send[3], num[2]; sf::Packet message;
-					itoa(playerNumber, num, 10);
-					strcpy(send, "o");
-					strcat(send, num);
-					message >> send;
+					sf::Packet message;
+					message >> "o";
 					socket->send(message);
+					message.clear();
+					message >> playerNumber;
+					socket->send(message);
+					message.clear();
 				}
 				else if ((mousePosition.x > o->getPosition().x) && (mousePosition.y > o->getPosition().y) &&
 					(mousePosition.x < (o->getPosition().x + o->getSize().x)) &&
@@ -241,6 +242,13 @@ void quereyPlayers(Player &player, int &playerNumber, bool &play, sf::TcpSocket 
 				{
 					player.playerOne.insert(0, "o");
 					player.playerTwo.insert(0, "x");
+					sf::Packet message;
+					message >> "x";
+					socket->send(message);
+					message.clear();
+					message >> playerNumber;
+					socket->send(message);
+					message.clear();
 				}
 				else if ((mousePosition.x > 0) && (mousePosition.y > 0) &&
 					(mousePosition.x < window.getSize().x) && (mousePosition.y < window.getSize().y))
@@ -296,7 +304,7 @@ MiniBoardPosition findOpenMiniboard(MainBoard &gameBoard)
 }
 /*main game function*/
 void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::String &playerString, 
-	sf::Text &text, Player &player, bool &play, int &servClient)
+	sf::Text &text, Player &player, bool &play, int &servClient, sf::TcpSocket *&socket, sf::Packet &packet)
 {
 	MainBoard testBoard;
 	MiniBoardPosition miniPos, lastPos;
@@ -318,11 +326,7 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 					window.close();
 					testBoard.clearMainBoard();
 				}
-				else if (playerNumber == 0)
-				{
-					testBoard.setCellCharacter(mousePosition, playerString, font, playerNumber, miniPos);
-				}
-				else if (playerNumber == 1)
+				else if (playerNumber == servClient)
 				{
 					testBoard.setCellCharacter(mousePosition, playerString, font, playerNumber, miniPos);
 				}
@@ -370,6 +374,11 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 			}
 		}
 		window.draw(text);
+		if ((socket->receive(packet) == sf::Socket::Done)&&(playerNumber!=servClient))
+		{
+			char *temp; packet << temp;
+			testBoard.setCellCharacter(stringToVector(temp), playerString, font, playerNumber, miniPos);
+		}
 		testBoard.draw(window, mousePosition, playerString, font, playerNumber, miniPos);
 		if (!testBoard.isWon(mousePosition, playerString, font))
 			updatePlayerString(player, playerString, playerNumber);
@@ -393,7 +402,7 @@ bool connectMachines(int &servClient, sf::TcpSocket *&mainSocket)
 		std::cout << "Server is listening to port " << port << ", waiting for connections... " << std::endl;
 
 		// Wait for a connection
-		sf::TcpSocket *socket;
+		sf::TcpSocket *socket = new sf::TcpSocket;
 		if (listener.accept(*socket) != sf::Socket::Done)
 			return false;
 		std::cout << "Client connected: " << socket->getRemoteAddress() << std::endl;
@@ -417,7 +426,7 @@ bool connectMachines(int &servClient, sf::TcpSocket *&mainSocket)
 		} while (server == sf::IpAddress::None);
 
 		// Create a socket for communicating with the server
-		sf::TcpSocket *socket;
+		sf::TcpSocket *socket = new sf::TcpSocket;
 
 		// Connect to the server
 		if (socket->connect(server, port) != sf::Socket::Done)

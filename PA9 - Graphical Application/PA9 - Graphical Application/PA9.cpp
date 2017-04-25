@@ -14,6 +14,88 @@ void setFont(sf::Font &font, sf::Text &text)
 	text.setStyle(sf::Text::Bold);
 	text.setPosition(sf::Vector2f(325, 25));
 }
+// prints out a menu with options to either play or print instructions
+int menu(bool &playBool)
+{
+	int choice = 0;
+	Cell *inst, *play;
+	inst = new Cell(sf::Vector2f(300, 300)); play = new Cell(sf::Vector2f(300, 150));
+	sf::Text test, xString, oString, firstPlayer;
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Welcome", sf::Style::Default);
+	sf::Font font;
+	setFont(font, test);
+	setFont(font, oString);
+	setFont(font, xString);
+	setFont(font, firstPlayer);
+	sf::Vector2i mousePosition = (sf::Mouse::getPosition() - window.getPosition() - sf::Vector2i(8, 31));
+	inst->setSize(sf::Vector2f(200, 100)); play->setSize(sf::Vector2f(200, 100));
+	while (window.isOpen())
+	{
+		sf::Event event;
+		sf::Vector2i mousePosition = (sf::Mouse::getPosition() - window.getPosition() - sf::Vector2i(8, 31));
+		if ((mousePosition.x > play->getPosition().x) && (mousePosition.y > play->getPosition().y) &&
+			(mousePosition.x < (play->getPosition().x + play->getSize().x)) &&
+			(mousePosition.y < (play->getPosition().y + play->getSize().y)))
+		{
+			play->setFillColor(sf::Color::Cyan);
+			choice = 1;
+		}
+		else
+			play->setFillColor(sf::Color::Green);
+		if ((mousePosition.x > inst->getPosition().x) && (mousePosition.y > inst->getPosition().y) &&
+			(mousePosition.x < (inst->getPosition().x + inst->getSize().x)) &&
+			(mousePosition.y < (inst->getPosition().y + inst->getSize().y)))
+		{
+			inst->setFillColor(sf::Color::Cyan);
+			choice = 2;
+		}
+		else
+			inst->setFillColor(sf::Color::Green);
+		while (window.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				window.close();
+				break;
+			case sf::Event::KeyReleased:
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					playBool = false;
+					window.close();
+				}
+			case sf::Event::EventType::MouseButtonReleased:
+
+				if ((mousePosition.x > 0) && (mousePosition.y > 0) &&
+					(mousePosition.x < window.getSize().x) && (mousePosition.y < window.getSize().y))
+					window.close();
+				break;
+			default:
+				break;
+			}
+		}
+		window.clear(sf::Color::Blue);
+		test.setString("Tic Tac Toe");
+		xString.setString("Play Game");
+		oString.setString("Instructions");
+		test.setCharacterSize(80);
+		test.setPosition(sf::Vector2f(240, 50));
+		window.draw(test);
+
+		xString.setPosition(sf::Vector2f(325, 175));
+		oString.setPosition(sf::Vector2f(325, 325));
+		xString.setCharacterSize(30);
+		oString.setCharacterSize(30);
+		play->draw(window);
+		inst->draw(window);
+		window.draw(xString);
+		window.draw(oString);
+		window.display();
+	}
+
+	return choice;
+}
+
 /*Prints rules for the game. click anywhere to close screen.*/
 void printInstructions()
 {
@@ -80,7 +162,7 @@ void printInstructions()
 		instructions.setString("First player to go will be chosen by the computer at random.");
 		instructions.setPosition(50, 370);
 		window.draw(instructions);
-		instructions.setString("Click anywhere to begin. Good Luck!");
+		instructions.setString("Click anywhere to begin. Esc to exit. Good Luck!");
 		instructions.setPosition(175, 440);
 		window.draw(instructions);
 		window.display();
@@ -88,7 +170,7 @@ void printInstructions()
 }
 /*Asks player one to select "x" or "o". Randomly decides which player
 will go first.*/
-void quereyPlayers(Player &player, int &playerNumber, bool &play)
+void quereyPlayers(Player &player, int &playerNumber, bool &play, sf::TcpSocket *&socket)
 {
 	Cell *x, *o;
 	o = new Cell(sf::Vector2f(380,150)); x = new Cell(sf::Vector2f(200,150));
@@ -146,6 +228,12 @@ void quereyPlayers(Player &player, int &playerNumber, bool &play)
 				{
 					player.playerOne.insert(0, "x");
 					player.playerTwo.insert(0, "o");
+					char *send, *num; sf::Packet message;
+					itoa(playerNumber, num, 10);
+					strcpy(send, "o");
+					strcat(send, num);
+					message >> send;
+					socket->send(message);
 				}
 				else if ((mousePosition.x > o->getPosition().x) && (mousePosition.y > o->getPosition().y) &&
 					(mousePosition.x < (o->getPosition().x + o->getSize().x)) &&
@@ -178,7 +266,9 @@ void quereyPlayers(Player &player, int &playerNumber, bool &play)
 		window.draw(xString);
 		window.draw(oString);
 		if (!player.playerOne.isEmpty())
+		{
 			window.draw(firstPlayer);
+		}
 		window.display();
 	}
 }
@@ -205,7 +295,8 @@ MiniBoardPosition findOpenMiniboard(MainBoard &gameBoard)
 	return temp;
 }
 /*main game function*/
-void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::String &playerString, sf::Text &text, Player &player, bool &play)
+void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::String &playerString, 
+	sf::Text &text, Player &player, bool &play, int &servClient)
 {
 	MainBoard testBoard;
 	MiniBoardPosition miniPos, lastPos;
@@ -254,7 +345,30 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 			}
 		}
 		window.clear(sf::Color::Blue);
-		text.setString("Tic Tactical");
+		//prints the players turn
+		if (player.playerOne == "x")
+		{
+			if (playerNumber == 1)
+			{
+				text.setString("Tic Tac Toe O turn");
+			}
+			if (playerNumber == 0)
+			{
+				text.setString("Tic Tac Toe X turn");
+			}
+		}
+
+		if (player.playerOne == "o")
+		{
+			if (playerNumber == 1)
+			{
+				text.setString("Tic Tac Toe X turn");
+			}
+			if (playerNumber == 0)
+			{
+				text.setString("Tic Tac Toe O turn");
+			}
+		}
 		window.draw(text);
 		testBoard.draw(window, mousePosition, playerString, font, playerNumber, miniPos);
 		if (!testBoard.isWon(mousePosition, playerString, font))
@@ -263,7 +377,7 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 	}
 }
 
-bool connectMachines()
+bool connectMachines(int &servClient, sf::TcpSocket *&mainSocket)
 {
 	unsigned short port = 12345;
 	char option = '\0';
@@ -279,17 +393,18 @@ bool connectMachines()
 		std::cout << "Server is listening to port " << port << ", waiting for connections... " << std::endl;
 
 		// Wait for a connection
-		sf::TcpSocket socket;
-		if (listener.accept(socket) != sf::Socket::Done)
+		sf::TcpSocket *socket;
+		if (listener.accept(*socket) != sf::Socket::Done)
 			return false;
-		std::cout << "Client connected: " << socket.getRemoteAddress() << std::endl;
+		std::cout << "Client connected: " << socket->getRemoteAddress() << std::endl;
 
 		// Send a message to the connected client
 		const char out[] = "Hi, I'm the server";
-		if (socket.send(out, sizeof(out)) != sf::Socket::Done)
+		if (socket->send(out, sizeof(out)) != sf::Socket::Done)
 			return false;
 		std::cout << "Message sent to the client: \"" << out << "\"" << std::endl;
-
+		servClient = 0;
+		mainSocket = socket;
 		return true;
 	}
 	else if (option == 'c')
@@ -302,26 +417,49 @@ bool connectMachines()
 		} while (server == sf::IpAddress::None);
 
 		// Create a socket for communicating with the server
-		sf::TcpSocket socket;
+		sf::TcpSocket *socket;
 
 		// Connect to the server
-		if (socket.connect(server, port) != sf::Socket::Done)
+		if (socket->connect(server, port) != sf::Socket::Done)
 			return false;
 		std::cout << "Connected to server " << server << std::endl;
 
 		// Receive a message from the server
 		char in[128];
 		std::size_t received;
-		if (socket.receive(in, sizeof(in), received) != sf::Socket::Done)
+		if (socket->receive(in, sizeof(in), received) != sf::Socket::Done)
 			return false;
 		std::cout << "Message received from the server: \"" << in << "\"" << std::endl;
 
 		// Send an answer to the server
 		const char out[] = "Hi, I'm a client";
-		if (socket.send(out, sizeof(out)) != sf::Socket::Done)
+		if (socket->send(out, sizeof(out)) != sf::Socket::Done)
 			return false;
 		std::cout << "Message sent to the server: \"" << out << "\"" << std::endl;
-
+		servClient = 1;
+		mainSocket = socket;
 		return true;
 	}
+}
+
+sf::Vector2i stringToVector(char coordinates[])
+{
+	sf::Vector2i position;
+	char *parse, *parse2;
+	parse = strtok(coordinates, ",");
+	position.x = atoi(parse);
+	parse2 = strtok(NULL,"\0");
+	position.y = atoi(parse2);
+	return position;
+}
+
+char* vectorToString(sf::Vector2i coordinates)
+{
+	char string[20], temp[6], temp2[6];
+	itoa(coordinates.x, temp, 10);
+	itoa(coordinates.y, temp2, 10);
+	strcpy(string, temp);
+	strcat(string, ",");
+	strcat(string, temp2);
+	return string;
 }

@@ -329,6 +329,9 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 				else if (playerNumber == servClient)
 				{
 					testBoard.setCellCharacter(mousePosition, playerString, font, playerNumber, miniPos);
+					packet >> vectorToString(mousePosition);
+					socket->send(packet);
+					packet.clear();
 				}
 				/*checks if current or next miniboard have been won*/
 				if ((testBoard.getMiniBoard(miniPos.row, miniPos.column).isClaimed()) &&
@@ -378,6 +381,7 @@ void playGame(sf::RenderWindow &window, sf::Font &font, int &playerNumber, sf::S
 		{
 			char *temp; packet << temp;
 			testBoard.setCellCharacter(stringToVector(temp), playerString, font, playerNumber, miniPos);
+			packet.clear();
 		}
 		testBoard.draw(window, mousePosition, playerString, font, playerNumber, miniPos);
 		if (!testBoard.isWon(mousePosition, playerString, font))
